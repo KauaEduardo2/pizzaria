@@ -244,9 +244,16 @@ const atualizarCarrinho = () => {
 const finalizarCompra = () => {
     seleciona('.cart--finalizar').addEventListener('click', () => {
         console.log('Finalizar compra')
-        seleciona('aside').classList.remove('show')
+        
         seleciona('aside').style.left = '100vw'
         seleciona('header').style.display = 'flex'
+        const successMessage = document.querySelector('.success-message');
+        successMessage.style.display = 'block';
+
+        // Ocultar a mensagem de sucesso após 3 segundos
+        setTimeout(() => {
+            successMessage.style.display = 'none';
+        }, 3000); // 3000 ms = 3 segundos
     })
 }
 // Função para fechar o carrinho quando o botão "Voltar" é clicado
