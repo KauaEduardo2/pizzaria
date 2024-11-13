@@ -1,0 +1,318 @@
+// aula 05
+// criar a variável modalKey sera global
+let modalKey = 0
+
+// variavel para controlar a quantidade inicial de pizzas na modal
+let quantPizzas = 1
+
+let cart = [] // carrinho
+// /aula 05
+
+// funcoes auxiliares ou uteis
+const seleciona = (elemento) => document.querySelector(elemento)
+const selecionaTodos = (elemento) => document.querySelectorAll(elemento)
+
+const formatoReal = (valor) => {
+    return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+}
+
+const formatoMonetario = (valor) => {
+    if(valor) {
+        return valor.toFixed(2)
+    }
+}
+
+const abrirModal = () => {
+    seleciona('.pizzaWindowArea').style.opacity = 0 // transparente
+    seleciona('.pizzaWindowArea').style.display = 'flex'
+    setTimeout(() => seleciona('.pizzaWindowArea').style.opacity = 1, 150)
+}
+
+const fecharModal = () => {
+    seleciona('.pizzaWindowArea').style.opacity = 0 // transparente
+    setTimeout(() => seleciona('.pizzaWindowArea').style.display = 'none', 500)
+}
+
+const botoesFechar = () => {
+    // BOTOES FECHAR MODAL
+    selecionaTodos('.pizzaInfo--cancelButton, .pizzaInfo--cancelMobileButton').forEach( (item) => item.addEventListener('click', fecharModal) )
+}
+
+const preencheDadosDasPizzas = (pizzaItem, item, index) => {
+    pizzaItem.setAttribute('data-key', index);
+    
+    const pizzaImg = pizzaItem.querySelector('.pizza-item--img img');
+    pizzaImg.src = item.img;
+    
+    // Adiciona uma classe específica baseada no nome da pizza, ex: "highlight-cirrus"
+    const className = `highlight-${item.name.toLowerCase().replace(/\s/g, '-')}`;
+    pizzaImg.classList.add(className);
+    
+    pizzaItem.querySelector('.pizza-item--price').innerHTML = formatoReal(item.price[1]);
+    pizzaItem.querySelector('.pizza-item--name').innerHTML = item.name;
+    pizzaItem.querySelector('.pizza-item--desc').innerHTML = item.description;
+};
+
+
+const preencheDadosModal = (item) => {
+    seleciona('.pizzaBig img').src = item.img
+    seleciona('.pizzaInfo h1').innerHTML = item.name
+    seleciona('.pizzaInfo--desc').innerHTML = item.description
+    seleciona('.pizzaInfo--actualPrice').innerHTML = formatoReal(item.price[1])
+}
+
+// aula 05
+const pegarKey = (e) => {
+    // .closest retorna o elemento mais proximo que tem a class que passamos
+    // do .pizza-item ele vai pegar o valor do atributo data-key
+    let key = e.target.closest('.pizza-item').getAttribute('data-key')
+    console.log('Pizza clicada ' + key)
+    console.log(pizzaJson[key])
+
+    // garantir que a quantidade inicial de pizzas é 1
+    quantPizzas = 1
+
+    // Para manter a informação de qual pizza foi clicada
+    modalKey = key
+
+    return key
+}
+
+const preencherTamanhos = (key) => {
+    // Remove a seleção de todos os botões e define o texto
+    selecionaTodos('.pizzaInfo--size').forEach((size, sizeIndex) => {
+        size.classList.remove('selected'); // Remove qualquer seleção existente
+        size.querySelector('span').innerHTML = sizeIndex === 0 ? 'Kid' : 'Adulto';
+    });
+
+    // Seleciona "Adulto" por padrão e exibe o preço para "Adulto"
+    seleciona('.pizzaInfo--size[data-key="1"]').classList.add('selected');
+    seleciona('.pizzaInfo--actualPrice').innerHTML = formatoReal(pizzaJson[key].price[1]);
+};
+
+
+
+
+const escolherTamanhoPreco = (key) => {
+    selecionaTodos('.pizzaInfo--size').forEach((size, sizeIndex) => {
+        size.addEventListener('click', () => {
+            // Remove a classe 'selected' de todos os tamanhos e adiciona apenas ao tamanho clicado
+            seleciona('.pizzaInfo--size.selected').classList.remove('selected');
+            size.classList.add('selected');
+
+            // Mudar o preço de acordo com o índice do tamanho (0 para Kid, 1 para Adulto)
+            seleciona('.pizzaInfo--actualPrice').innerHTML = formatoReal(pizzaJson[key].price[sizeIndex]);
+
+        });
+    })
+};
+
+
+
+const mudarQuantidade = () => {
+    // Ações nos botões + e - da janela modal
+    seleciona('.pizzaInfo--qtmais').addEventListener('click', () => {
+        quantPizzas++
+        seleciona('.pizzaInfo--qt').innerHTML = quantPizzas
+    })
+
+    seleciona('.pizzaInfo--qtmenos').addEventListener('click', () => {
+        if(quantPizzas > 1) {
+            quantPizzas--
+            seleciona('.pizzaInfo--qt').innerHTML = quantPizzas	
+        }
+    })
+}
+// /aula 05
+
+const adicionarNoCarrinho = () => {
+    seleciona('.pizzaInfo--addButton').addEventListener('click', () => {
+        console.log('Adicionar no carrinho');
+
+        // Pega o ID do produto e o tamanho selecionado
+        let size = parseInt(seleciona('.pizzaInfo--size.selected').getAttribute('data-key')); // "0" para Kid, "1" para Adulto
+        let price = pizzaJson[modalKey].price[size]; // Pega o preço baseado no tamanho
+
+        // Se `price` for undefined, algo está errado com o JSON ou com a seleção de tamanho
+        console.log("Preço selecionado:", price);
+
+        // Crie um identificador que junte o ID e o tamanho selecionado
+        let identificador = pizzaJson[modalKey].id + 't' + size;
+
+        // Checa se o item já está no carrinho
+        let key = cart.findIndex((item) => item.identificador === identificador);
+
+        if (key > -1) {
+            // Se já existir, aumente a quantidade
+            cart[key].qt += quantPizzas;
+        } else {
+            // Se não existir, adicione o item com quantidade e preço
+            let pizza = {
+                identificador,
+                id: pizzaJson[modalKey].id,
+                size, 
+                qt: quantPizzas,
+                price: price
+            };
+            cart.push(pizza);
+        }
+
+        fecharModal();
+        abrirCarrinho();
+        atualizarCarrinho();
+    });
+};
+
+const abrirCarrinho = () => {
+    console.log('Qtd de itens no carrinho ' + cart.length)
+    if(cart.length > 0) {
+        // mostrar o carrinho
+	    seleciona('aside').classList.add('show')
+        seleciona('header').style.display = 'flex' // mostrar barra superior
+    }
+
+    // exibir aside do carrinho no modo mobile
+    seleciona('.menu-openner').addEventListener('click', () => {
+        if(cart.length > 0) {
+            seleciona('aside').classList.add('show')
+            seleciona('aside').style.left = '0'
+        }
+    })
+}
+
+const fecharCarrinho = () => {
+    // fechar o carrinho com o botão X no modo mobile
+    seleciona('.menu-closer').addEventListener('click', () => {
+        seleciona('aside').style.left = '100vw' // usando 100vw ele ficara fora da tela
+        seleciona('header').style.display = 'flex'
+    })
+}
+const atualizarCarrinho = () => {
+    seleciona('.menu-openner span').innerHTML = cart.length;
+
+    if(cart.length > 0) {
+        seleciona('aside').classList.add('show');
+        seleciona('.cart').innerHTML = ''; // Limpa o carrinho antes de atualizar
+
+        let subtotal = 0;
+        let desconto = 0;
+        let total = 0;
+
+        for (let i in cart) {
+            let cartItem = seleciona('.models .cart--item').cloneNode(true);
+            let pizzaItem = pizzaJson.find(item => item.id === cart[i].id);
+
+            subtotal += cart[i].price * cart[i].qt;
+
+            let pizzaSizeName = cart[i].size === 0 ? 'Kid' : 'Adulto';
+            let pizzaName = `${pizzaItem.name} (${pizzaSizeName})`;
+
+            cartItem.querySelector('img').src = pizzaItem.img;
+            cartItem.querySelector('.cart--item-nome').innerHTML = pizzaName;
+            cartItem.querySelector('.cart--item--qt').innerHTML = cart[i].qt;
+
+            cartItem.querySelector('.cart--item-qtmais').addEventListener('click', () => {
+                cart[i].qt++;
+                atualizarCarrinho();
+            });
+
+            cartItem.querySelector('.cart--item-qtmenos').addEventListener('click', () => {
+                if (cart[i].qt > 1) {
+                    cart[i].qt--;
+                } else {
+                    cart.splice(i, 1);
+                }
+                atualizarCarrinho();
+            });
+
+            seleciona('.cart').append(cartItem);
+        }
+
+        desconto = subtotal * 0; // Ajuste o desconto conforme necessário
+        total = subtotal - desconto;
+
+        seleciona('.subtotal span:last-child').innerHTML = formatoReal(subtotal);
+        seleciona('.desconto span:last-child').innerHTML = formatoReal(desconto);
+        seleciona('.total span:last-child').innerHTML = formatoReal(total);
+    } else {
+        seleciona('aside').classList.remove('show');
+    }
+};
+
+
+
+const finalizarCompra = () => {
+    seleciona('.cart--finalizar').addEventListener('click', () => {
+        console.log('Finalizar compra')
+        seleciona('aside').classList.remove('show')
+        seleciona('aside').style.left = '100vw'
+        seleciona('header').style.display = 'flex'
+    })
+}
+// Função para fechar o carrinho quando o botão "Voltar" é clicado
+// Função para fechar o carrinho ao clicar no botão "Voltar"
+document.querySelector('.cart-back-button').addEventListener('click', () => {
+    document.querySelector('aside').classList.remove('show');
+});
+
+
+// Ative o botão "Voltar" quando o carrinho for exibido
+
+
+
+// /aula 06
+
+// MAPEAR pizzaJson para gerar lista de pizzas
+pizzaJson.map((item, index ) => {
+    //console.log(item)
+    let pizzaItem = document.querySelector('.models .pizza-item').cloneNode(true)
+    //console.log(pizzaItem)
+    //document.querySelector('.pizza-area').append(pizzaItem)
+    seleciona('.pizza-area').append(pizzaItem)
+
+    // preencher os dados de cada pizza
+    preencheDadosDasPizzas(pizzaItem, item, index)
+    
+    // pizza clicada
+    pizzaItem.querySelector('.pizza-item a').addEventListener('click', (e) => {
+        e.preventDefault()
+        console.log('Clicou na pizza')
+
+        // aula 05
+        let chave = pegarKey(e)
+        // /aula 05
+
+        // abrir janela modal
+        abrirModal()
+
+        // preenchimento dos dados
+        preencheDadosModal(item)
+
+        // aula 05
+        // pegar tamanho selecionado
+        preencherTamanhos(chave)
+
+		// definir quantidade inicial como 1
+		seleciona('.pizzaInfo--qt').innerHTML = quantPizzas
+
+        // selecionar o tamanho e preco com o clique no botao
+        escolherTamanhoPreco(chave)
+        // /aula 05
+
+    })
+
+    botoesFechar()
+
+}) // fim do MAPEAR pizzaJson para gerar lista de pizzas
+
+// aula 05
+// mudar quantidade com os botoes + e -
+mudarQuantidade()
+// /aula 05
+
+// aula 06
+adicionarNoCarrinho()
+atualizarCarrinho()
+fecharCarrinho()
+finalizarCompra()
+// /aula 06
