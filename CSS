@@ -1,0 +1,678 @@
+@import url('https://fonts.googleapis.com/css?family=Hepta+Slab:400,700|Lato:400,700&display=swap');
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    
+    padding-top: 130px; /* Compensa a altura do header */
+    background-color:#bbbbbb;
+    font-family:'Lato', Helvetica, Arial;
+    font-size:15px;
+    display:flex;
+    margin:0;
+    min-height:100vh;
+}
+
+.models {
+    display:none;
+}
+
+header {
+    position: fixed;
+    left:0;
+    top:0;
+    right:0;
+    height: 200px;
+    background-color:rgb(10, 10, 10);
+    display:flex; /* none; */
+    justify-content:space-between; /* flex-end; */
+    align-items: center;
+}
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 30px; /* Espaço entre os itens */
+    margin-left: 690px;
+}
+
+.app-link, .order-link {
+    display: flex;
+    align-items: center;
+
+    background-color: gray;
+    color: #000000;
+    padding: 5px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.app-link img, .order-link img {
+    width: 32px; /* Tamanho do ícone */
+    height: 32px;
+    margin-right: 5px; /* Espaço entre o ícone e o texto */
+}
+
+.order-link {
+    background-color: gray;
+    color: #000;
+    padding: 8px 15px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.order-link img {
+    width: 25px;
+    height: auto;
+}
+.logo {
+    margin-left: 2rem;
+    height: 170px; /* Ajuste o tamanho conforme necessário */
+    width: auto;
+    justify-content: center;
+}
+
+header h1 {
+    margin-left: 1rem;
+    color: #fff;
+}
+
+.menu-openner {
+    margin-right: 30px;
+    font-size: 26px;
+    background-color: gray;
+    padding: 4px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.menu-openner span {
+    margin-right:10px;
+}
+
+.menu-closer {
+    width:32px;
+    height:32px;
+    display:none;
+    font-size: 30px;
+}
+
+aside {
+    background-color:#373334;
+    width:0vw;
+    font-family:'Hepta Slab', Helvetica, Arial;
+    margin-top: -110px;
+    border-radius: 20px;
+    transition:all ease .2s;
+    overflow-x:hidden;
+    height: 100vh; /* Garante que o aside cubra toda a altura da tela */
+    z-index: 20; /* Valor maior que o header para sobrepor */
+}
+
+aside.show {
+    width: 30vw; /* Abre o aside para 30% da largura da tela */
+}
+
+.cart--area {
+    margin-top: 20px; /* Compensa a altura do header */
+    padding: 20px;
+    overflow-y: auto; /* Permite rolagem se o conteúdo for maior que a tela */
+}
+
+.cart--area h1 {
+    display: relative;
+    color: #dedede;
+    margin-top:0px;
+}
+
+main {
+    flex:1;
+    padding:20px;
+    margin-top:60px;
+}
+
+h1, h2 {
+    font-family:'Hepta Slab', Helvetica, Arial;
+    text-align: center;
+}
+
+.pizza-area {
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.pizza-item {
+    text-align: center;
+    max-width:250px;
+    font-family:'Hepta Slab', Helvetica, Arial;
+    margin:0 auto 50px auto;
+}
+
+.pizza-item a {
+    display:flex;
+    flex-direction: column;
+    align-items:center;
+    text-decoration: none;
+}
+
+.pizza-item--img {
+    width:200px;
+    height:200px;
+    
+    background-color:#000000;
+    border-radius: 50%; /* Deixa o contêiner em formato circular */
+    box-shadow: 0px 10px 50px rgba(0, 0, 0, 0.2);
+    overflow: hidden; /* Garante que a imagem se encaixe no círculo */
+    
+  
+}
+.highlight-cirrus {
+    width: 95%;
+    height: 91%;
+    margin-right: 3px;
+    object-fit: cover;
+    margin-top: 7px;
+    border-radius: 50%;
+    object-position: center;
+
+    transition: transform 0.3s ease;
+}
+
+.highlight-blanik {
+    width:100%;
+    height:100%;
+    object-fit: cover; /* Ajusta a imagem para cobrir todo o círculo */
+    border-radius: 50%; /* Garante que a imagem tenha bordas arredondadas */   box-shadow: 0px 5px 30px rgba(0, 0, 0, 0.3);
+ 
+}
+
+.highlight-janus {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    object-position: center;
+
+    transition: transform 0.3s ease;/* Garante que a imagem tenha bordas arredondadas */   box-shadow: 0px 5px 30px rgba(0, 0, 0, 0.3);
+ 
+}
+.highlight-formagio{
+    width:100%;
+    height:98%;
+    object-fit: cover; /* Ajusta a imagem para cobrir todo o círculo */
+    border-radius: 50%;
+}
+.highlight-cheio-de-vazio{
+    width:100%;
+    height:98%;
+    object-fit: cover; /* Ajusta a imagem para cobrir todo o círculo */
+    border-radius: 50%;
+}
+.highlight-nimbus{
+    width:100%;
+    height:98%;
+    object-fit: cover; /* Ajusta a imagem para cobrir todo o círculo */
+    border-radius: 50%;
+}
+.highlight-stugartt{
+    width:100%;
+    height:98%;
+    object-fit: cover; /* Ajusta a imagem para cobrir todo o círculo */
+    border-radius: 50%;
+}
+.pizza-item--add {
+    width:50px;
+    height:50px;
+    line-height:50px;
+    border-radius:25px;
+    background-color:#020202;
+    text-align:center;
+    color:#FFF;
+    font-size:22px;
+    cursor:pointer;
+    margin-top:-25px;
+    transition:all ease .2s;
+}
+
+.pizza-item a:hover .pizza-item--add {
+    background-color:#383434;
+}
+
+.pizza-item--price {
+    font-size:15px;
+    color:#333;
+    margin-top:5px;
+}
+
+.pizza-item--name {
+    font-size:20px;
+    font-weight: bold;
+    color:#000;
+    margin-top:5px;
+}
+
+.pizza-item--desc {
+    font-size:13px;
+    color:#555;
+    margin-top:10px;
+}
+
+.pizzaWindowArea {
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
+    right:0;
+    background-color:rgba(255, 255, 255, 0.5);
+    display:none;
+    transition: all ease .5s;
+    justify-content: center;
+    align-items: center;
+    overflow-y:auto;
+
+}
+
+/* Ajusta o contêiner principal */
+.pizzaWindowBody {
+    width: 90%; /* Ajuste o tamanho conforme necessário */
+    max-width: 900px; /* Limite máximo de largura */
+    background-color: #FFF;
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+    display: flex;
+    margin: 20px auto;
+    padding: 20px;
+    z-index: 3;
+}
+
+/* Ajusta a área da imagem */
+.pizzaBig {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pizzaBig img {
+    height: 80%;
+    width: 100%; /* Ajusta a largura da imagem dentro do contêiner */
+    max-width:2000px; /* Define um tamanho máximo */
+    border-radius: 10px;
+}
+
+/* Ajusta a área de informações */
+.pizzaInfo {
+    flex: 1;
+    padding: 20px;
+    font-family: 'Hepta Slab', Helvetica, Arial;
+}
+
+.pizzaInfo h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.pizzaInfo--desc {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+/* Ajusta o setor de tamanhos */
+.pizzaInfo--sizearea {
+    margin-bottom: 20px;
+}
+
+.pizzaInfo--sector {
+    color: #CCC;
+    text-transform: uppercase;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.pizzaInfo--sizes {
+    display: flex;
+    gap: 10px; /* Espaço entre as opções */
+}
+
+.pizzaInfo--size {
+    padding: 10px 15px;
+    color: #000;
+    background-color: #EEE;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.pizzaInfo--size:hover {
+    background-color: #CCC;
+}
+
+.pizzaInfo--size.selected {
+    background-color: #d32f2f;
+    color: #FFF;
+}
+
+/* Preço e botões */
+.pizzaInfo--pricearea {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Espaço entre os elementos */
+    margin-bottom: 20px;
+}
+
+.pizzaInfo--sector {
+    font-size: 14px;
+    color: #CCC;
+    text-transform: uppercase;
+    margin-top: 10px;
+    margin-right: 10px; /* Espaço ao lado de "PREÇO" */
+}
+
+.pizzaInfo--actualPrice {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-right: 10px; /* Espaço ao lado do preço */
+}
+
+.pizzaInfo--qtarea {
+    display: flex;
+    align-items: center;
+    background-color: #EEE;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.pizzaInfo--qtarea button {
+    border: 0;
+    background-color: transparent;
+    font-size: 16px;
+    font-weight: bold;
+    outline: 0;
+    cursor: pointer;
+    padding: 0 8px;
+    color: #333;
+}
+
+.pizzaInfo--qt {
+    line-height: 30px;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 0 5px;
+    color: #000;
+}
+
+
+/* Botão de adicionar ao carrinho */
+.pizzaInfo--addButton {
+    padding: 15px 30px;
+    background-color: #48d05f;
+    color: #FFF;
+    font-weight: bold;
+    border-radius: 20px;
+    position: relative;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    pointer-events: auto; /* Certifique-se de que o botão pode receber cliques */
+    z-index: 10; 
+}
+
+.pizzaInfo--addButton:hover {
+    background-color: #32a345;
+}
+
+.pizzaInfo--cancelButton {
+    display: inline-block;
+    cursor: pointer;
+    color: #d32f2f;
+    margin-top: 15px;
+    text-decoration: underline;
+}
+
+
+.pizzaInfo--cancelMobileButton {
+    display:none;
+    height:40px;
+    text-align:center;
+    line-height: 40px;
+    margin-bottom:30px;
+}
+
+.cart {
+    margin-top: 30px;
+    margin-bottom:20px;
+    color: #e2e2e2;
+}
+
+.cart--item {
+    display:flex;
+    align-items:center;
+    margin:10px 0;
+}
+
+.cart--item img {
+    width:50px;
+    height:50px;
+    margin-right:20px;
+}
+
+.cart--item-nome {
+    flex:1;
+}
+
+.cart--item--qtarea {
+    display:inline-flex;
+    background-color:#EEE;
+    border-radius:10px;
+    height:30px;
+}
+
+.cart--item--qtarea button {
+    border:0;
+    background-color:transparent;
+    font-size:17px;
+    outline:0;
+    cursor:pointer;
+    padding:0px 10px;
+    color:#333;
+}
+
+.cart--item--qt {
+    line-height: 30px;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 0px 5px;
+    color:#000000;
+}
+
+.cart--totalitem {
+    padding:15px 0;
+    border-top:1px solid #cfc8c8;
+    color:#dad6d6;
+    display:flex;
+    justify-content: space-between;
+    font-size:15px;
+}
+
+.cart--totalitem span:first-child {
+    font-weight: bold;
+}
+
+.cart--totalitem.big {
+    font-size:20px;
+    color:#cdcbcb;
+    font-weight: bold;
+}
+
+.cart--finalizar {
+    padding:20px 30px;
+    border-radius:20px;
+    background-color:#48d05f;
+    color:#FFF;
+    cursor:pointer;
+    text-align:center;
+    margin-top:20px;
+    border:2px solid #63f77c;
+    transition: all ease .2s;
+}
+
+.cart--finalizar:hover {
+    background-color:#35af4a;
+}
+.cart-back-button {
+    background: none;
+    border: none;
+    color: #cecccc;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    margin: 10px;
+    padding: 5px;
+}
+
+.cart-back-button .arrow {
+    font-size: 18px;
+    margin-right: 5px;
+}
+.qr-code-area {
+    text-align: center;
+    padding: 20px;
+    margin-top: 10px;
+    border: 1px solid #cdcdcd;
+    border-radius: 10px;
+    background-color: #ffffff;
+}
+
+.qr-code-img {
+    width: 300px; /* Ajuste o tamanho da imagem conforme necessário */
+    height: auto;
+    margin-top:2px;
+}
+@media (max-width:1000px) {
+    .pizza-area {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width:840px) {
+    body {
+        flex-direction: column;
+    }
+    .pizza-area {
+        display:block;
+    }
+    .pizza-item {
+        max-width:100%;
+    }
+    header {
+        display:flex;
+    }
+    /*
+    main {
+        padding-top:60px;
+    }
+    */
+    aside {
+        width:auto;
+        position:fixed;
+        left:100vw;
+        right:0;
+        top:0;
+        bottom:0;
+        transition: all ease .2s;
+    }
+    aside.show {
+        width:auto;
+    }
+    .cart--area {
+        width:100vw;
+    }
+
+    .menu-closer {
+        display:block;
+    }
+
+    .pizzaWindowArea {
+        justify-content:flex-start;
+        align-items: flex-start;
+    }
+
+    .pizzaWindowBody {
+        width:100vw;
+        display:block;
+        padding:20px;
+        border-radius:0;
+        box-shadow:none;
+        margin:0;
+    }
+
+    .pizzaBig img {
+        width: 75%;
+        height: auto;
+    }
+
+    .pizzaInfo h1 {
+        margin-top:20px;
+    }
+
+    .pizzaInfo--qtarea {
+        height:60px;
+    }
+    
+    .pizzaInfo--qtarea button {
+        font-size:25px;
+        padding:0px 25px;
+    }
+
+    .pizzaInfo--qt {
+        line-height: 60px;
+        font-size:20px;
+    }
+
+    .pizzaInfo--addButton {
+        font-size:20px;
+        display:block;
+        text-align:center;
+        margin:30px auto;
+    }
+
+    .pizzaInfo--cancelButton {
+        display:none;
+    }
+
+    .pizzaInfo--cancelMobileButton {
+        display:block;
+    }
+
+}
+
+@media (max-width:450px) {
+    header h1 {
+        font-size: 1.5rem;
+    }
+    .menu-openner {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width:380px) {
+    header h1 {
+        font-size: 1rem;
+    }
+    .menu-openner {
+        font-size: 1.5rem;
+    }
+}
+
+#img-logo {
+    width: 50px;
+}
